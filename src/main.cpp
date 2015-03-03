@@ -21,11 +21,30 @@
 
 
 #include <iostream>
+#include <map>
+#include <exception>
 #include "PackageManager.h"
+#include "Configuration.h"
+#include "CustomExceptions.h"
 
 
 int main (int argc, char const* argv[])
 {
+    try
+    {
+        Configuration parameters(argc, argv);
+    }
+    catch(UnrecognizedArgument& e)
+    {
+        std::cout << argv[0] << " : " << e.what() << std::endl;
+        std::cout << "Try `" << argv[0] << " --help` for more information." << std::endl;
+        return 1;
+    }
+    catch(HelpMessage& e)
+    {
+        std::cout << e.what() << std::endl;
+        return 0;
+    }
 
     return 0;
 }
