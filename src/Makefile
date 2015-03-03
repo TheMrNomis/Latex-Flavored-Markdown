@@ -6,16 +6,18 @@ OBJ=$(SRC:.cpp=.o)
 EXEC=../LFM.out
 
 all: objects
-	$(CC) $(CFLAGS) $(OBJ) -o $(EXEC) $(CLIBS)
+	$(CC) $(CLIBS) $(OBJ) -o $(EXEC)
 
 objects:
 	$(CC) $(CFLAGS) -c $(SRC)
 
+prod: mrproper all
+
 .PHONY: clean mrproper
 
 clean:
-	@rm -rf *.o
+	rm -rf *.o
 
 mrproper: clean
-	@rm -rf $(EXEC)
-	@rm -rf *~
+	rm -rf $(EXEC)
+	rm -rf *~
