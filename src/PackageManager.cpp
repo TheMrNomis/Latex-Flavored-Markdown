@@ -28,7 +28,7 @@ void PackageManager::addPackage(std::string package)
     m_packages.insert(package);
 }
 
-std::string PackageManager::toString()
+std::string PackageManager::toString() const
 {
     std::string tmp("");
     for(auto it = m_packages.begin(); it != m_packages.cend(); it++)
