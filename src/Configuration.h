@@ -23,7 +23,7 @@
 #ifndef __CONFIGURATION_H__
 #define __CONFIGURATION_H__
 
-#include <map>
+#include <vector>
 #include <iostream>
 
 class Configuration
@@ -32,7 +32,7 @@ class Configuration
         Configuration (int argc, char const* argv[]);
         virtual ~Configuration ();
 
-        std::vector& getFiles();
+        std::vector<std::string>& getFiles();
     private:
         void simpleDash(std::string const& arg);
         void doubleDash(std::string const& arg);
