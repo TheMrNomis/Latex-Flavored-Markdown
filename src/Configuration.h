@@ -26,18 +26,19 @@
 #include <map>
 #include <iostream>
 
-
 class Configuration
 {
     public:
         Configuration (int argc, char const* argv[]);
         virtual ~Configuration ();
-        void set(std::string param, std::string value);
+
+        std::vector& getFiles();
     private:
         void simpleDash(std::string const& arg);
         void doubleDash(std::string const& arg);
+        void set(std::string param, std::string value);
 
-        std::map<std::string, std::string> m_params;
+        std::vector<std::string> m_files;
 };
 
 
