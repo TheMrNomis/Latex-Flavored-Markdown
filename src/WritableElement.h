@@ -1,5 +1,5 @@
 /*
- * PackageManager.h
+ * WritableElement.h
  * This file is part of Latex-Flavored-Markdown
  *
  * Copyright (C) 2015 - n0m1s
@@ -18,25 +18,21 @@
  * along with Latex-Flavored-Markdown. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __PACKAGEMANAGER_H__
-#define __PACKAGEMANAGER_H__
+#ifndef __WRITABLE_ELEMENT_H__
+#define __WRITABLE_ELEMENT_H__
 
 #include <iostream>
-#include <unordered_set>
-#include <string>
-#include "WritableElement.h"
 
-class PackageManager : public WritableElement
+class WritableElement
 {
     public:
-        PackageManager();
-        virtual ~PackageManager();
-
-        void addPackage(std::string package);
-        virtual std::string toString() const;
-
-    private:
-        std::unordered_set<std::string> m_packages;
+        virtual std::string toString() const = 0;
 };
 
-#endif /* __PACKAGEMANAGER_H__ */
+inline std::ostream& operator<<(std::ostream& out, const WritableElement& element)
+{
+    out << element.toString();
+    return out;
+}
+
+#endif /* __WRITABLE_ELEMENT_H__ */
