@@ -30,8 +30,8 @@ class TextHandler : public WritableElement
         TextHandler();
         virtual ~TextHandler();
 
+        virtual std::string toString() const;
     private:
-        /* data */
 };
 
 #endif /* __TEXTHANDLER_H__ */
