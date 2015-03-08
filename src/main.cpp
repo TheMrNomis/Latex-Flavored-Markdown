@@ -21,30 +21,40 @@
 
 
 #include <iostream>
-#include <map>
 #include <exception>
-#include "PackageManager.h"
+#include <vector>
 #include "Configuration.h"
 #include "CustomExceptions.h"
-
+#include "Document.h"
+#include "PackageManager.h"
 
 int main (int argc, char const* argv[])
 {
+    PackageManager * packages(new PackageManager());
+    Configuration * parameters;
     try
     {
-        Configuration parameters(argc, argv);
+        parameters = new Configuration(argc, argv);
     }
-    catch(UnrecognizedArgument& e)
+    catch(ArgumentException& e)
     {
         std::cout << argv[0] << " : " << e.what() << std::endl;
         std::cout << "Try `" << argv[0] << " --help` for more information." << std::endl;
-        return 1;
+        return EXIT_FAILURE;
     }
     catch(HelpMessage& e)
     {
         std::cout << e.what() << std::endl;
-        return 0;
+        return EXIT_SUCCESS;
     }
 
-    return 0;
+    std::vector<std::string> files(parameters->getFiles());
+
+    for(auto i = files.begin(); i != files.cend(); i++)
+        std::cout << "file : " << *i << std::endl;
+
+    delete parameters;
+    delete packages;
+
+    return EXIT_SUCCESS;
 }

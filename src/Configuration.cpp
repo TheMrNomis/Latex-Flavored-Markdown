@@ -22,60 +22,82 @@
 #include "CustomExceptions.h"
 
 
-Configuration::Configuration(int argc, char const* argv[])
+Configuration::Configuration(int argc, char const* argv[]):m_tmpparam("")
 {
-    //TODO
     //arguments gestion
     for(int i = 1; i < argc; i++)
     {
         if(argv[i][0] == '-' && argv[i][1] == '-')
-        {
-//            std::cout << "double dash : " << std::endl;
             doubleDash(std::string(argv[i]));
-        }
         else if(argv[i][0] == '-')
-        {
-//            std::cout << "single dash : " << std::endl;
             simpleDash(std::string(argv[i]));
-        }
+        else if(m_tmpparam == "")
+            m_files.push_back(argv[i]);
         else
-            std::cout << "file : " << argv[i] << std::endl;
+        {
+            set(m_tmpparam, argv[i]);
+            m_tmpparam = "";
+        }
     }
+    if(m_tmpparam != "")
+        throw TooFewOptionsForArgument(m_tmpparam);
 }
 Configuration::~Configuration (){}
 
+std::vector<std::string> const& Configuration::getFiles()
+{
+    return m_files;
+}
+
 void Configuration::set(std::string param, std::string value)
 {
-//    if()
+    m_params[param] = value;
 }
 
 void Configuration::simpleDash(std::string const& arg)
 {
     std::string extendedArg;
-    for(int i = 1; i < arg.length(); i++)
+    for(unsigned int i = 1; i < arg.length(); i++)
     {
-//        std::cout << arg[i] << std::endl;
         switch(arg[i])
         {
             //TODO : extend the list
+            case 'h':
+                extendedArg = "help";
+                break;
             case 'v':
                 extendedArg = "verbose";
                 break;
             default:
-                throw UnrecognizedArgument(std::string("") + arg[i]);
+                throw UnrecognizedArgument(&arg[i]);
         }
-        set(extendedArg, "true");
+        doubleDash(extendedArg);
     }
 }
 
 void Configuration::doubleDash(std::string const& arg)
 {
-    //TODO
-    if(arg == "--help")
+    //TODO : extend the list
+    std::string opt = (arg[0] == '-' && arg[1] == '-') ? arg.substr(2) : arg;
+    if(opt == "help")
         throw HelpMessage("Usage : \n\
-    -v  --verbose       verbose output\n\
-    ");
-    std::string strippedArg = arg.substr(2);
-    std::cout << strippedArg << std::endl;
-    set(arg, "true");
+    -h  --help          print this help message\n\
+    -v  --verbose       verbose output\
+");
+    else if(opt == "version")
+        throw HelpMessage("Latex-Flavored-Markdown version 0.0");
+    else if(opt == "verbose")
+        set("verbose", "true");
+    else if(opt == "config")
+        waitArgument(opt);
+    else
+        throw UnrecognizedArgument(opt);
+}
+
+void Configuration::waitArgument(std::string param)
+{
+    if(m_tmpparam == "")
+        m_tmpparam = param;
+    else
+        throw TooFewOptionsForArgument(m_tmpparam);
 }

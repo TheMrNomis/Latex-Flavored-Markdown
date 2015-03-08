@@ -23,8 +23,9 @@
 #ifndef __CONFIGURATION_H__
 #define __CONFIGURATION_H__
 
-#include <vector>
 #include <iostream>
+#include <vector>
+#include <map>
 
 class Configuration
 {
@@ -32,12 +33,15 @@ class Configuration
         Configuration (int argc, char const* argv[]);
         virtual ~Configuration ();
 
-        std::vector<std::string>& getFiles();
+        std::vector<std::string> const& getFiles();
     private:
         void simpleDash(std::string const& arg);
         void doubleDash(std::string const& arg);
         void set(std::string param, std::string value);
+        void waitArgument(std::string param);
 
+        std::string m_tmpparam; //used when an argument needs an option
+        std::map<std::string, std::string> m_params;
         std::vector<std::string> m_files;
 };
 
