@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-std=c++0x
+CFLAGS=-std=c++0x -Wall -pedantic
 CLIBS=
 SRC=$(wildcard *.cpp)
 OBJ=$(SRC:.cpp=.o)
