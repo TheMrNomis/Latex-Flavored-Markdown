@@ -19,19 +19,27 @@
  */
 
 #include "PackageManager.h"
+#include <sstream>
 
 PackageManager::PackageManager(){}
 PackageManager::~PackageManager(){}
 
-void PackageManager::addPackage(std::string package)
+void PackageManager::addPackage(std::string package, std::string options)
 {
-    m_packages.insert(package);
+    m_packages.insert(Package(package,options));
 }
 
 std::string PackageManager::toString() const
 {
-    std::string tmp("");
+    std::stringstream str;
     for(auto it = m_packages.begin(); it != m_packages.cend(); it++)
-        tmp += ((tmp == "")? "" : "\n") + *it;
-    return tmp;
+    {
+        std::string package(std::get<0>(*it));
+        std::string options(std::get<1>(*it));
+        str << ((str == "")? "" : "\n") << "\\usepackage";
+        if(options != "")
+            str << "[" << options << "]";
+        str << "{" << package << "}";
+    }
+    return str.str();
 }

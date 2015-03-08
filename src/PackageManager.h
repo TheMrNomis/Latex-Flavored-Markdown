@@ -22,8 +22,9 @@
 #define __PACKAGEMANAGER_H__
 
 #include <iostream>
-#include <unordered_set>
+#include <set>
 #include <string>
+#include <tuple>
 #include "WritableElement.h"
 
 class PackageManager : public WritableElement
@@ -32,11 +33,12 @@ class PackageManager : public WritableElement
         PackageManager();
         virtual ~PackageManager();
 
-        void addPackage(std::string package);
+        void addPackage(std::string package, std::string options="");
         virtual std::string toString() const;
 
     private:
-        std::unordered_set<std::string> m_packages;
+        typedef std::tuple<std::string,std::string> Package;
+        std::set<Package> m_packages;
 };
 
 #endif /* __PACKAGEMANAGER_H__ */
