@@ -27,17 +27,33 @@
 class CustomException : public std::exception
 {
     public:
-        CustomException (std::string message);
+        CustomException (std::string const& message);
         virtual const char* what() const throw();
     protected:
-        std::string m_message;
+        const std::string m_message;
+};
+
+//----ArgumentException----
+class ArgumentException : public CustomException
+{
+     public:
+        ArgumentException (std::string const& message);
+        virtual const char* what() const throw() = 0;
 };
 
 //----UnrecognizedArgument----
-class UnrecognizedArgument : public CustomException
+class UnrecognizedArgument : public ArgumentException
 {
     public:
-        UnrecognizedArgument (std::string arg);
+        UnrecognizedArgument (std::string const& arg);
+        virtual const char* what() const throw();
+};
+
+//----TooFewOptionsForArgument----
+class TooFewOptionsForArgument : public ArgumentException
+{
+    public:
+        TooFewOptionsForArgument (std::string const& arg);
         virtual const char* what() const throw();
 };
 
@@ -45,7 +61,7 @@ class UnrecognizedArgument : public CustomException
 class HelpMessage : public CustomException
 {
     public:
-        HelpMessage (std::string helpText);
+        HelpMessage (std::string const& helpText);
 };
 
 #endif /* __CUSTOM_EXCEPTIONS_H__ */

@@ -21,20 +21,31 @@
 #include "CustomExceptions.h"
 
 //----CustomException----
-CustomException ::CustomException (std::string message):m_message(message){}
+CustomException::CustomException (std::string const& message):m_message(message){}
 const char* CustomException::what() const throw()
 {
     return m_message.c_str();
 }
 
-//----HelpMessage----
-HelpMessage::HelpMessage (std::string helpText):CustomException(helpText){}
+//----ArgumentException----
+ArgumentException::ArgumentException (std::string const& message):CustomException(message){}
+
+//----TooFewOptionsForArgument----
+TooFewOptionsForArgument::TooFewOptionsForArgument (std::string const& arg):ArgumentException(arg){}
+const char* TooFewOptionsForArgument::what() const throw()
+{
+    std::string what("option '" + m_message + "' needs an argument");
+    return what.c_str();
+}
 
 //----UnrecognizedArgument----
-UnrecognizedArgument::UnrecognizedArgument (std::string arg):CustomException(arg){}
+UnrecognizedArgument::UnrecognizedArgument (std::string const& arg):ArgumentException(arg){}
 
 const char* UnrecognizedArgument::what() const throw()
 {
     std::string what("invalid option -- '" + m_message + "'");
     return what.c_str();
 }
+
+//----HelpMessage----
+HelpMessage::HelpMessage (std::string const& helpText):CustomException(helpText){}
