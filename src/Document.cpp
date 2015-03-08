@@ -31,5 +31,5 @@ Document::~Document()
 
 std::string Document::toString() const
 {
-
+    return "";
 }
