@@ -25,6 +25,7 @@
 #include <set>
 #include <string>
 #include <tuple>
+#include <sstream>
 #include "WritableElement.h"
 
 class PackageManager : public WritableElement

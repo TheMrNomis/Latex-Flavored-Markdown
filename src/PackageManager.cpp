@@ -19,7 +19,6 @@
  */
 
 #include "PackageManager.h"
-#include <sstream>
 
 PackageManager::PackageManager(){}
 PackageManager::~PackageManager(){}
