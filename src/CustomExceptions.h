@@ -64,4 +64,12 @@ class HelpMessage : public CustomException
         HelpMessage (std::string const& helpText);
 };
 
+//----CantOpenFile----
+class CantOpenFile : public CustomException
+{
+    public:
+        CantOpenFile (std::string const& filename);
+        virtual const char* what() const throw();
+};
+
 #endif /* __CUSTOM_EXCEPTIONS_H__ */

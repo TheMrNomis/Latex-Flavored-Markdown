@@ -49,3 +49,11 @@ const char* UnrecognizedArgument::what() const throw()
 
 //----HelpMessage----
 HelpMessage::HelpMessage (std::string const& helpText):CustomException(helpText){}
+
+//----CantOpenFile----
+CantOpenFile::CantOpenFile (std::string const& filename):CustomException(filename){}
+const char* CantOpenFile::what() const throw()
+{
+    std::string what("Can't open file " + m_message + ". Please check that file exists, and permissions are corrects.");
+    return what.c_str();
+}
