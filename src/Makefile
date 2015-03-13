@@ -1,9 +1,13 @@
 CC=g++
-CFLAGS=-std=c++0x -Wall -pedantic
+CFLAGS=-std=c++0x
 CLIBS=
 SRC=$(wildcard *.cpp)
 OBJ=$(SRC:.cpp=.o)
 EXEC=../LFM.out
+
+DEBUGDIR=../Debug
+DEBUGFLAGS=-Wall -pedantic
+DEBUGARGS=../example.md
 
 all: objects
 	$(CC) $(CLIBS) $(OBJ) -o $(EXEC)
@@ -12,6 +16,13 @@ objects:
 	$(CC) $(CFLAGS) -c $(SRC)
 
 prod: mrproper all
+
+debug: mrproper objects_debug
+	$(CC) $(CLIBS) $(OBJ) -o $(EXEC) 2>&1 | tee $(DEBUGDIR)/linker.log
+	valgrind --leak-check=full $(EXEC) $(DEBUGARGS) 2>&1 | tee $(DEBUGDIR)/valgrind.log
+
+objects_debug:
+	$(CC) $(CFLAGS) $(DEBUGFLAGS) -c $(SRC) 2>&1 | tee $(DEBUGDIR)/compiler.log
 
 .PHONY: clean mrproper
 
