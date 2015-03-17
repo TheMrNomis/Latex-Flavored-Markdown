@@ -50,8 +50,11 @@ int main (int argc, char const* argv[])
 
     std::vector<std::string> files(parameters->getFiles());
 
-    for(auto i = files.begin(); i != files.cend(); i++)
-        std::cout << "file : " << *i << std::endl;
+    for(auto f = files.begin(); f != files.cend(); f++)
+    {
+        Document doc(*f, parameters, packages);
+//        doc.
+    }
 
     delete parameters;
     delete packages;
