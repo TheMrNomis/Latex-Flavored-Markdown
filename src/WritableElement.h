@@ -26,6 +26,7 @@
 class WritableElement
 {
     public:
+        virtual ~WritableElement(){};
         virtual std::string toString() const = 0;
 };
 
