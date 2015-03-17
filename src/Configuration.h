@@ -33,7 +33,8 @@ class Configuration
         Configuration (int argc, char const* argv[]);
         virtual ~Configuration ();
 
-        std::vector<std::string> const& getFiles();
+        std::vector<std::string> const& getFiles() const;
+        std::string const& get(std::string param) const;
     private:
         void simpleDash(std::string const& arg);
         void doubleDash(std::string const& arg);

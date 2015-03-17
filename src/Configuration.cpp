@@ -41,12 +41,25 @@ Configuration::Configuration(int argc, char const* argv[]):m_tmpparam("")
     }
     if(m_tmpparam != "")
         throw TooFewOptionsForArgument(m_tmpparam);
+
+    //BELOW : DEFAULT TEST CONFIGURATION
+    set("title0","part");
+    set("title1","section");
+    set("title2","subsection");
+    set("title3","subsubsection");
+    set("title4","paragraph");
+    set("title5","subparagraph");
 }
 Configuration::~Configuration (){}
 
-std::vector<std::string> const& Configuration::getFiles()
+std::vector<std::string> const& Configuration::getFiles() const
 {
     return m_files;
+}
+
+std::string const& Configuration::get(std::string param) const
+{
+    return m_params.at(param);
 }
 
 void Configuration::set(std::string param, std::string value)
