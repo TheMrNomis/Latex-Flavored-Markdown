@@ -22,21 +22,39 @@
 #define __DOCUMENT_H__
 
 #include <iostream>
+#include <fstream>
+#include <regex>
+#include <sstream>
+#include <vector>
 #include "WritableElement.h"
 #include "TextHandler.h"
 #include "MathHandler.h"
+#include "CustomExceptions.h"
+#include "PackageManager.h"
+#include "Configuration.h"
 
-class Document : public WritableElement
+class Document
 {
     public:
-        Document(std::string filename);
+        Document(std::string filename, Configuration * conf, PackageManager * pkg);
         virtual ~Document();
 
-        virtual std::string toString() const;
+        virtual void print(std::ostream& out) const;
     private:
         std::string m_filename;
+        std::vector<WritableElement *> m_splittedDocument;
+
         TextHandler * m_textHandler;
         MathHandler * m_mathHandler;
+
+        Configuration * m_conf;
+        PackageManager * m_pkg;
 };
+
+inline std::ostream& operator<<(std::ostream& out, const Document& element)
+{
+    element.print(out);
+    return out;
+}
 
 #endif /* __DOCUMENT_H__ */

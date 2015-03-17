@@ -20,16 +20,43 @@
 
 #include "Document.h"
 
-Document::Document(std::string filename)
+Document::Document(std::string filename, Configuration * conf, PackageManager * pkg):m_conf(conf), m_pkg(pkg)
 {
+    std::ifstream file(filename);
+    if(!file.is_open())
+        throw CantOpenFile(filename);
+    std::cout << "File opened : " << filename << std::endl;
 
+    std::string line;
+    std::stringstream str("");
+    bool math(false);
+    while(getline(file, line))
+    {
+        if(std::regex_match(line, std::regex("\\${2}")))
+        {
+//            m_splittedDocument.push_back(str.str());
+            if(math)
+                m_splittedDocument.push_back(new MathHandler(str.str()));
+            else
+                m_splittedDocument.push_back(new TextHandler(str.str(), m_conf, m_pkg));
+            str.str("");
+        }
+        else
+        {
+            str << line << std::endl;
+        }
+    }
+
+    file.close();
 }
 Document::~Document()
 {
-
+    for(auto i=m_splittedDocument.cbegin(); i != m_splittedDocument.cend(); i++)
+        delete *i;
 }
 
-std::string Document::toString() const
+void Document::print(std::ostream& out) const
 {
-    return "";
+    for(auto i : m_splittedDocument)
+        out << i;
 }
