@@ -27,11 +27,13 @@
 class MathHandler : public WritableElement
 {
     public:
-        MathHandler();
+        MathHandler(std::string const& s, bool block = true);
         virtual ~MathHandler();
 
         virtual std::string toString() const;
     private:
+        std::string m_str;
+        bool const m_block;
 };
 
 #endif /* __MATHSHANDLER_H__ */

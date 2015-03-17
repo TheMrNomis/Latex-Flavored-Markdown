@@ -19,3 +19,17 @@
  */
 
 #include "MathHandler.h"
+
+MathHandler::MathHandler(std::string const& s, bool block):m_str(s), m_block(block){}
+MathHandler::~MathHandler()
+{
+
+}
+
+std::string MathHandler::toString() const
+{
+    if(m_block)
+        return "\\[" + m_str + "\\]";
+    else
+        return "$" + m_str + "$";
+}
