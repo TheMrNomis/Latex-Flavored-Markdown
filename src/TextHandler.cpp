@@ -19,3 +19,29 @@
  */
 
 #include "TextHandler.h"
+
+TextHandler::TextHandler(std::string const& s, Configuration * conf, PackageManager * pkg):m_str(s),m_conf(conf),m_pkg(pkg){}
+
+TextHandler::~TextHandler()
+{
+
+}
+
+void TextHandler::transformTitles()
+{
+    //underlined titles
+    std::regex_replace(m_str,std::regex("(.{1,})\\n={4,}\\n"),"\\"+m_conf->get("title1")+"{$1}");
+    std::regex_replace(m_str,std::regex("(.{1,})\\n-{4,}\\n"),"\\"+m_conf->get("title2")+"{$1}");
+    std::regex_replace(m_str,std::regex("(.{1,})\\n_{4,}\\n"),"\\"+m_conf->get("title3")+"{$1}");
+    //sharp-prefixed titles
+    std::regex_replace(m_str,std::regex("#{5}(.{1,})\\n"),"\\"+m_conf->get("title5")+"{$1}");
+    std::regex_replace(m_str,std::regex("#{4}(.{1,})\\n"),"\\"+m_conf->get("title4")+"{$1}");
+    std::regex_replace(m_str,std::regex("#{3}(.{1,})\\n"),"\\"+m_conf->get("title3")+"{$1}");
+    std::regex_replace(m_str,std::regex("#{2}(.{1,})\\n"),"\\"+m_conf->get("title2")+"{$1}");
+    std::regex_replace(m_str,std::regex("#{1}(.{1,})\\n"),"\\"+m_conf->get("title1")+"{$1}");
+}
+
+std::string TextHandler::toString() const
+{
+    return m_str;
+}

@@ -22,16 +22,24 @@
 #define __TEXTHANDLER_H__
 
 #include <iostream>
+#include <regex>
 #include "WritableElement.h"
+#include "PackageManager.h"
+#include "Configuration.h"
 
 class TextHandler : public WritableElement
 {
     public:
-        TextHandler();
+        TextHandler(std::string const& s, Configuration * conf, PackageManager * pkg);
         virtual ~TextHandler();
 
         virtual std::string toString() const;
     private:
+        void transformTitles();
+
+        std::string m_str;
+        Configuration * m_conf;
+        PackageManager * m_pkg;
 };
 
 #endif /* __TEXTHANDLER_H__ */
