@@ -41,7 +41,7 @@ void TextHandler::transformTitles()
     std::regex_replace(m_str,std::regex("#{1}(.{1,})\\n"),"\\"+m_conf->get("title1")+"{$1}");
 }
 
-std::string TextHandler::toString() const
+void TextHandler::print(std::ostream& out) const
 {
-    return m_str;
+    out << m_str;
 }

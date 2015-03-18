@@ -35,7 +35,7 @@ class PackageManager : public WritableElement
         virtual ~PackageManager();
 
         void addPackage(std::string package, std::string options="");
-        virtual std::string toString() const;
+        virtual void print(std::ostream& out) const;
 
     private:
         typedef std::tuple<std::string,std::string> Package;

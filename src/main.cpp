@@ -53,6 +53,7 @@ int main (int argc, char const* argv[])
     for(auto f = files.begin(); f != files.cend(); f++)
     {
         Document doc(*f, parameters, packages);
+        std::cout << doc << std::endl;
 //        doc.
     }
 

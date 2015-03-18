@@ -26,10 +26,10 @@ MathHandler::~MathHandler()
 
 }
 
-std::string MathHandler::toString() const
+void MathHandler::print(std::ostream& out) const
 {
     if(m_block)
-        return "\\[" + m_str + "\\]";
+        out << "\\[" << m_str << "\\]";
     else
-        return "$" + m_str + "$";
+        out << "$" << m_str << "$";
 }

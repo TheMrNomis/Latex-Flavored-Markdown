@@ -33,7 +33,7 @@ class TextHandler : public WritableElement
         TextHandler(std::string const& s, Configuration * conf, PackageManager * pkg);
         virtual ~TextHandler();
 
-        virtual std::string toString() const;
+        virtual void print(std::ostream& out) const;
     private:
         void transformTitles();
 

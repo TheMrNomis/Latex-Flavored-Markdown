@@ -28,7 +28,7 @@ void PackageManager::addPackage(std::string package, std::string options)
     m_packages.insert(Package(package,options));
 }
 
-std::string PackageManager::toString() const
+void PackageManager::print(std::ostream& out) const
 {
     std::stringstream str;
     for(auto it = m_packages.begin(); it != m_packages.cend(); it++)
@@ -40,5 +40,5 @@ std::string PackageManager::toString() const
             str << "[" << options << "]";
         str << "{" << package << "}";
     }
-    return str.str();
+    out << str.str();
 }

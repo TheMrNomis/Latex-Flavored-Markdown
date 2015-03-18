@@ -28,25 +28,27 @@ Document::Document(std::string filename, Configuration * conf, PackageManager * 
     std::cout << "File opened : " << filename << std::endl;
 
     std::string line;
-    std::stringstream str("");
+    std::stringstream * str = new std::stringstream();
     bool math(false);
     while(getline(file, line))
     {
         if(std::regex_match(line, std::regex("\\${2}")))
         {
 //            m_splittedDocument.push_back(str.str());
+            std::cout << str->str() << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
             if(math)
-                m_splittedDocument.push_back(new MathHandler(str.str()));
+                m_splittedDocument.push_back(new MathHandler(str->str()));
             else
-                m_splittedDocument.push_back(new TextHandler(str.str(), m_conf, m_pkg));
-            str.str("");
+                m_splittedDocument.push_back(new TextHandler(str->str(), m_conf, m_pkg));
+            delete str;
+            str = new std::stringstream();
         }
         else
         {
-            str << line << std::endl;
+            *str << line << std::endl;
         }
     }
-
+    delete str;
     file.close();
 }
 Document::~Document()

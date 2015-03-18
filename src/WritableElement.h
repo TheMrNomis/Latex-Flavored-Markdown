@@ -27,12 +27,12 @@ class WritableElement
 {
     public:
         virtual ~WritableElement(){};
-        virtual std::string toString() const = 0;
+        virtual void print(std::ostream& out) const = 0;
 };
 
 inline std::ostream& operator<<(std::ostream& out, const WritableElement& element)
 {
-    out << element.toString();
+    element.print(out);
     return out;
 }
 

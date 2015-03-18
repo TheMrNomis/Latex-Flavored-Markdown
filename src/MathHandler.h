@@ -30,7 +30,7 @@ class MathHandler : public WritableElement
         MathHandler(std::string const& s, bool block = true);
         virtual ~MathHandler();
 
-        virtual std::string toString() const;
+        virtual void print(std::ostream& out) const;
     private:
         std::string m_str;
         bool const m_block;
