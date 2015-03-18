@@ -33,7 +33,7 @@
 #include "PackageManager.h"
 #include "Configuration.h"
 
-class Document
+class Document : public WritableElement
 {
     public:
         Document(std::string filename, Configuration * conf, PackageManager * pkg);
@@ -50,11 +50,5 @@ class Document
         Configuration * m_conf;
         PackageManager * m_pkg;
 };
-
-inline std::ostream& operator<<(std::ostream& out, const Document& element)
-{
-    element.print(out);
-    return out;
-}
 
 #endif /* __DOCUMENT_H__ */

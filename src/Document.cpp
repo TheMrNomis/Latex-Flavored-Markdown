@@ -34,7 +34,6 @@ Document::Document(std::string filename, Configuration * conf, PackageManager * 
     {
         if(std::regex_match(line, std::regex("\\${2}")))
         {
-//            m_splittedDocument.push_back(str.str());
             std::cout << str->str() << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
             if(math)
                 m_splittedDocument.push_back(new MathHandler(str->str()));
