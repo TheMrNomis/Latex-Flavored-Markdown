@@ -30,7 +30,7 @@ class WritableElement
         virtual void print(std::ostream& out) const = 0;
 };
 
-inline std::ostream& operator<<(std::ostream& out, const WritableElement& element)
+inline std::ostream& operator<<(std::ostream& out, WritableElement const& element)
 {
     element.print(out);
     return out;

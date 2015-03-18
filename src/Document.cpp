@@ -40,13 +40,16 @@ Document::Document(std::string filename, Configuration * conf, PackageManager * 
     {
         if(std::regex_match(line, std::regex("\\${2}")))
         {
-            std::cout << str->str() << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
+//            std::cout << str->str() << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
             if(math)
-                m_splittedDocument.push_back(new MathHandler(str->str()));
+                MathHandler(str->str()).print(*texfile);
+//                m_splittedDocument.push_back(new MathHandler(str->str()));
             else
-                m_splittedDocument.push_back(new TextHandler(str->str(), m_conf, m_pkg));
+                *texfile << TextHandler(str->str(), m_conf, m_pkg);
+//                m_splittedDocument.push_back(new TextHandler(str->str(), m_conf, m_pkg));
             delete str;
             str = new std::stringstream();
+            math = !math;
         }
         else
         {

@@ -29,7 +29,7 @@ MathHandler::~MathHandler()
 void MathHandler::print(std::ostream& out) const
 {
     if(m_block)
-        out << "\\[" << m_str << "\\]";
+        out << "\\[" << std::endl << m_str << "\\]" << std::endl;
     else
         out << "$" << m_str << "$";
 }
