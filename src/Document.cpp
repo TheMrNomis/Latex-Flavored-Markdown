@@ -22,15 +22,21 @@
 
 Document::Document(std::string filename, Configuration * conf, PackageManager * pkg):m_conf(conf), m_pkg(pkg)
 {
-    std::ifstream file(filename);
-    if(!file.is_open())
+    std::ifstream mdfile(filename);
+    if(!mdfile.is_open())
         throw CantOpenFile(filename);
-    std::cout << "File opened : " << filename << std::endl;
+    std::cout << "Input markdown file : " << filename << std::endl;
+
+    std::string texfilename(filename + ".tex");
+    std::ofstream * texfile = new std::ofstream(texfilename, std::ios::out | std::ios::trunc);
+    if(!texfile->is_open())
+        throw CantOpenFile(texfilename);
+    std::cout << "Output TeX file : " << texfilename << std::endl;
 
     std::string line;
     std::stringstream * str = new std::stringstream();
     bool math(false);
-    while(getline(file, line))
+    while(getline(mdfile, line))
     {
         if(std::regex_match(line, std::regex("\\${2}")))
         {
@@ -48,7 +54,9 @@ Document::Document(std::string filename, Configuration * conf, PackageManager * 
         }
     }
     delete str;
-    file.close();
+    mdfile.close();
+    texfile->close();
+    delete texfile;
 }
 Document::~Document()
 {
