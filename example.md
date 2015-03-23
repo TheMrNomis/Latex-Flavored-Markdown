@@ -4,14 +4,14 @@ date: 23 Novembre 2014
 type: report
 ++++
 
-First level title
-=================
+First underlined level title
+============================
 
-Second level title
-------------------
+Second underlined level title
+-----------------------------
 
-Third level title
-_________________
+Third underlined level title
+____________________________
 
 #First level title
 
