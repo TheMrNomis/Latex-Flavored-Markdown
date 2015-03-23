@@ -72,7 +72,7 @@ void Document::print(std::ostream& out) const
 void Document::transform(bool math, std::stringstream * str, std::ofstream * texfile)
 {
     if(math)
-        MathHandler(str->str()).print(*texfile);
+        *texfile << MathHandler(str->str());
     else
         *texfile << TextHandler(str->str(), m_conf, m_pkg);
 }
