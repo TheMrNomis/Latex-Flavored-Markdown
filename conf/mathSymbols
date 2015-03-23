@@ -1,0 +1,131 @@
+#SYNTAX
+# n|l|r|b @ symbol @ latex command
+#  n : no left space needed, nor right
+#  l : left space required, not right
+#  r : right space required, not left
+#  b : both spaces needed
+#arrows
+n   @   <->     @   \leftrightarrow
+n   @   <=>     @   \Leftrightarrow
+n   @   |->     @   \mapsto
+n   @   ->      @   \rightarrow
+n   @   <-      @   \leftarrow
+n   @   =>      @   \Rightarrow
+#set names
+b   @   |A      @   \mathbb{A}
+b   @   |B      @   \mathbb{B}
+b   @   |C      @   \mathbb{C}
+b   @   |D      @   \mathbb{D}
+b   @   |E      @   \mathbb{E}
+b   @   |F      @   \mathbb{F}
+b   @   |G      @   \mathbb{G}
+b   @   |H      @   \mathbb{H}
+b   @   |I      @   \mathbb{I}
+b   @   |J      @   \mathbb{J}
+b   @   |K      @   \mathbb{K}
+b   @   |L      @   \mathbb{L}
+b   @   |M      @   \mathbb{M}
+b   @   |N      @   \mathbb{N}
+b   @   |O      @   \mathbb{O}
+b   @   |P      @   \mathbb{P}
+b   @   |Q      @   \mathbb{Q}
+b   @   |R      @   \mathbb{R}
+b   @   |S      @   \mathbb{S}
+b   @   |T      @   \mathbb{T}
+b   @   |U      @   \mathbb{U}
+b   @   |V      @   \mathbb{V}
+b   @   |W      @   \mathbb{W}
+b   @   |X      @   \mathbb{X}
+b   @   |Y      @   \mathbb{Y}
+b   @   |Z      @   \mathbb{Z}
+#operators
+n   @   !=      @   \neq
+n   @   ==      @   \equiv
+n   @   <=      @   \leq
+n   @   >=      @   \geq
+n   @   <<      @   \ll
+n   @   >>      @   \gg
+n   @   !||     @   \nparallel
+n   @   ||      @   \parallel
+n   @   ~~      @   \approx
+n   @   ~=      @   \simeq
+n   @   ~       @   \sim
+b   @   *       @   \times
+#functions
+b   @   sum     @   \sum
+b   @   int     @   \int
+#other
+b   @   inf         @   \infty
+b   @   infty       @   \infty
+b   @   infinity    @   \infty
+#logic
+b   @   exists      @   \exists
+b   @   !exists     @   \nexists
+b   @   forall      @   \forall
+b   @   neg         @   \neg
+#sets
+b   @   in          @   \in
+b   @   !in         @   \notin
+b   @   ni          @   \ni
+b   @   subset      @   \subset
+b   @   supset      @   \supset
+b   @   subseteq    @   \subseteq
+b   @   !subseteq   @   \nsubseteq
+b   @   inter       @   \cap
+b   @   union       @   \cup
+#greek
+b   @   Alpha       @   A
+b   @   alpha       @   \alpha
+b   @   Beta        @   B
+b   @   beta        @   \beta
+b   @   Gamma       @   \Gamma
+b   @   gamma       @   \gamma
+b   @   Delta       @   \Delta
+b   @   delta       @   \delta
+b   @   Epsilon     @   E
+b   @   epsilon     @   \epsilon
+b   @   varepsilon  @   \varepsilon
+b   @   Zeta        @   Z
+b   @   zeta        @   \zeta
+b   @   Eta         @   H
+b   @   eta         @   \eta
+b   @   Theta       @   \Theta
+b   @   theta       @   \theta
+b   @   vartheta    @   \vartheta
+b   @   Iota        @   I
+b   @   iota        @   \iota
+b   @   Kappa       @   K
+b   @   kappa       @   \kappa
+b   @   varkappa    @   \varkappa
+b   @   Lambda      @   \Lambda
+b   @   lambda      @   \lambda
+b   @   Mu          @   M
+b   @   mu          @   \mu
+b   @   Nu          @   N
+b   @   nu          @   \nu
+b   @   Xi          @   \Xi
+b   @   xi          @   \xi
+b   @   Omicron     @   O
+b   @   omicron     @   \omicron
+b   @   Pi          @   \Pi
+b   @   pi          @   \pi
+b   @   varpi       @   \varpi
+b   @   Rho         @   P
+b   @   rho         @   \rho
+b   @   varrho      @   \varrho
+b   @   Sigma       @   \Sigma
+b   @   sigma       @   \sigma
+b   @   varsigma    @   \varsigma
+b   @   Tau         @   T
+b   @   tau         @   \tau
+b   @   Upsilon     @   \Upsilon
+b   @   upsilon     @   \upsilon
+b   @   Phi         @   \Phi
+b   @   phi         @   \phi
+b   @   varphi      @   \varphi
+b   @   Chi         @   X
+b   @   chi         @   \chi
+b   @   Psi         @   \Psi
+b   @   psi         @   \psi
+b   @   Omega       @   \Omega
+b   @   omega       @   \omega
