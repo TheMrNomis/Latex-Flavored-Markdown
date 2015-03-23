@@ -22,7 +22,7 @@
 #define __TEXTHANDLER_H__
 
 #include <iostream>
-#include <regex>
+#include <boost/regex.hpp>
 #include "WritableElement.h"
 #include "PackageManager.h"
 #include "Configuration.h"

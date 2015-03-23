@@ -1,6 +1,6 @@
 CC=g++
 CFLAGS=-std=c++0x
-CLIBS=
+CLIBS=-lm -lboost_regex -lpthread
 SRC=$(wildcard *.cpp)
 OBJ=$(SRC:.cpp=.o)
 EXEC=../LFM.out
@@ -10,7 +10,7 @@ DEBUGFLAGS=-Wall -pedantic
 DEBUGARGS=../example.md
 
 all: objects
-	$(CC) $(CLIBS) $(OBJ) -o $(EXEC)
+	$(CC) $(OBJ) $(CLIBS) -o $(EXEC)
 
 objects:
 	$(CC) $(CFLAGS) -c $(SRC)
@@ -18,7 +18,7 @@ objects:
 prod: mrproper all
 
 debug: mrproper objects_debug
-	$(CC) $(CLIBS) $(OBJ) -o $(EXEC) 2>&1 | tee $(DEBUGDIR)/linker.log
+	$(CC) $(OBJ) $(CLIBS) -o $(EXEC) 2>&1 | tee $(DEBUGDIR)/linker.log
 	valgrind --leak-check=full $(EXEC) $(DEBUGARGS) 2>&1 | tee $(DEBUGDIR)/valgrind.log
 
 objects_debug:

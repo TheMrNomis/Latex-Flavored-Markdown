@@ -20,7 +20,10 @@
 
 #include "TextHandler.h"
 
-TextHandler::TextHandler(std::string const& s, Configuration * conf, PackageManager * pkg):m_str(s),m_conf(conf),m_pkg(pkg){}
+TextHandler::TextHandler(std::string const& s, Configuration * conf, PackageManager * pkg):m_str(s),m_conf(conf),m_pkg(pkg)
+{
+    transformTitles();
+}
 
 TextHandler::~TextHandler()
 {
@@ -29,16 +32,18 @@ TextHandler::~TextHandler()
 
 void TextHandler::transformTitles()
 {
+    //first-level title
+    m_str = boost::regex_replace(m_str, boost::regex("+-{4,}[^\n]-{4,}+"), "\\\\"+m_conf->get("title0")+"{$1}\\n")
     //underlined titles
-    std::regex_replace(m_str,std::regex("(.{1,})\\n={4,}\\n"),"\\"+m_conf->get("title1")+"{$1}");
-    std::regex_replace(m_str,std::regex("(.{1,})\\n-{4,}\\n"),"\\"+m_conf->get("title2")+"{$1}");
-    std::regex_replace(m_str,std::regex("(.{1,})\\n_{4,}\\n"),"\\"+m_conf->get("title3")+"{$1}");
-    //sharp-prefixed titles
-    std::regex_replace(m_str,std::regex("#{5}(.{1,})\\n"),"\\"+m_conf->get("title5")+"{$1}");
-    std::regex_replace(m_str,std::regex("#{4}(.{1,})\\n"),"\\"+m_conf->get("title4")+"{$1}");
-    std::regex_replace(m_str,std::regex("#{3}(.{1,})\\n"),"\\"+m_conf->get("title3")+"{$1}");
-    std::regex_replace(m_str,std::regex("#{2}(.{1,})\\n"),"\\"+m_conf->get("title2")+"{$1}");
-    std::regex_replace(m_str,std::regex("#{1}(.{1,})\\n"),"\\"+m_conf->get("title1")+"{$1}");
+    m_str = boost::regex_replace(m_str, boost::regex("([^\\n]{1,})\\n={4,}\\n"), "\\\\"+m_conf->get("title1")+"{$1}\\n");
+    m_str = boost::regex_replace(m_str, boost::regex("([^\\n]{1,})\\n-{4,}\\n"), "\\\\"+m_conf->get("title2")+"{$1}\\n");
+    m_str = boost::regex_replace(m_str, boost::regex("([^\\n]{1,})\\n_{4,}\\n"), "\\\\"+m_conf->get("title3")+"{$1}\\n");
+    //#-prefixed titles
+    m_str = boost::regex_replace(m_str, boost::regex("#{5}([^\\n]{1,})\\n"), "\\\\"+m_conf->get("title5")+"{$1}\\n");
+    m_str = boost::regex_replace(m_str, boost::regex("#{4}([^\\n]{1,})\\n"), "\\\\"+m_conf->get("title4")+"{$1}\\n");
+    m_str = boost::regex_replace(m_str, boost::regex("#{3}([^\\n]{1,})\\n"), "\\\\"+m_conf->get("title3")+"{$1}\\n");
+    m_str = boost::regex_replace(m_str, boost::regex("#{2}([^\\n]{1,})\\n"), "\\\\"+m_conf->get("title2")+"{$1}\\n");
+    m_str = boost::regex_replace(m_str, boost::regex("#{1}([^\\n]{1,})\\n"), "\\\\"+m_conf->get("title1")+"{$1}\\n");
 }
 
 void TextHandler::print(std::ostream& out) const
