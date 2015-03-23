@@ -23,7 +23,7 @@
 
 #include <iostream>
 #include <fstream>
-#include <regex>
+#include <boost/regex.hpp>
 #include <sstream>
 #include <vector>
 #include "WritableElement.h"
@@ -49,6 +49,8 @@ class Document : public WritableElement
 
         Configuration * m_conf;
         PackageManager * m_pkg;
+
+        void transform(bool math, std::stringstream * str, std::ofstream * texfile);
 };
 
 #endif /* __DOCUMENT_H__ */

@@ -36,17 +36,12 @@ Document::Document(std::string filename, Configuration * conf, PackageManager * 
     std::string line;
     std::stringstream * str = new std::stringstream();
     bool math(false);
-    while(getline(mdfile, line))
+    while(mdfile.good())
     {
-        if(std::regex_match(line, std::regex("\\${2}")))
+        getline(mdfile, line);
+        if(boost::regex_match(line, boost::regex("\\${2}")))
         {
-//            std::cout << str->str() << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;
-            if(math)
-                MathHandler(str->str()).print(*texfile);
-//                m_splittedDocument.push_back(new MathHandler(str->str()));
-            else
-                *texfile << TextHandler(str->str(), m_conf, m_pkg);
-//                m_splittedDocument.push_back(new TextHandler(str->str(), m_conf, m_pkg));
+            transform(math, str, texfile);
             delete str;
             str = new std::stringstream();
             math = !math;
@@ -56,6 +51,7 @@ Document::Document(std::string filename, Configuration * conf, PackageManager * 
             *str << line << std::endl;
         }
     }
+    transform(math, str, texfile);
     delete str;
     mdfile.close();
     texfile->close();
@@ -71,4 +67,12 @@ void Document::print(std::ostream& out) const
 {
     for(auto i : m_splittedDocument)
         out << i;
+}
+
+void Document::transform(bool math, std::stringstream * str, std::ofstream * texfile)
+{
+    if(math)
+        MathHandler(str->str()).print(*texfile);
+    else
+        *texfile << TextHandler(str->str(), m_conf, m_pkg);
 }
