@@ -20,7 +20,10 @@
 
 #include "Document.h"
 
-Document::Document(std::string filename, Configuration * conf, PackageManager * pkg):m_conf(conf), m_pkg(pkg)
+Document::Document(std::string filename, Configuration * conf, PackageManager * pkg, MathReplacementLists ** mrl):
+    m_conf(conf),
+    m_pkg(pkg),
+    m_mrl(mrl)
 {
     std::ifstream mdfile(filename);
     if(!mdfile.is_open())
@@ -72,7 +75,7 @@ void Document::print(std::ostream& out) const
 void Document::transform(bool math, std::stringstream * str, std::ofstream * texfile)
 {
     if(math)
-        *texfile << MathHandler(str->str());
+        *texfile << MathHandler(str->str(), m_mrl);
     else
         *texfile << TextHandler(str->str(), m_conf, m_pkg);
 }

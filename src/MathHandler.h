@@ -23,17 +23,20 @@
 
 #include <iostream>
 #include "WritableElement.h"
+#include "MathReplacementLists.h"
 
 class MathHandler : public WritableElement
 {
     public:
-        MathHandler(std::string const& s, bool block = true);
+        MathHandler(std::string const& s, MathReplacementLists ** mrl, bool block = true);
         virtual ~MathHandler();
 
         virtual void print(std::ostream& out) const;
     private:
         std::string m_str;
         bool const m_block;
+
+        MathReplacementLists * m_mrl;
 };
 
 #endif /* __MATHSHANDLER_H__ */

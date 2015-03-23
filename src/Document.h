@@ -32,11 +32,12 @@
 #include "CustomExceptions.h"
 #include "PackageManager.h"
 #include "Configuration.h"
+#include "MathReplacementLists.h"
 
 class Document : public WritableElement
 {
     public:
-        Document(std::string filename, Configuration * conf, PackageManager * pkg);
+        Document(std::string filename, Configuration * conf, PackageManager * pkg, MathReplacementLists ** mrl);
         virtual ~Document();
 
         virtual void print(std::ostream& out) const;
@@ -49,6 +50,7 @@ class Document : public WritableElement
 
         Configuration * m_conf;
         PackageManager * m_pkg;
+        MathReplacementLists ** m_mrl;
 
         void transform(bool math, std::stringstream * str, std::ofstream * texfile);
 };
