@@ -23,6 +23,7 @@
 TextHandler::TextHandler(std::string const& s, Configuration * conf, PackageManager * pkg):m_str(s),m_conf(conf),m_pkg(pkg)
 {
     transformTitles();
+    transformFormating();
 }
 
 TextHandler::~TextHandler()
@@ -33,7 +34,7 @@ TextHandler::~TextHandler()
 void TextHandler::transformTitles()
 {
     //first-level title
-    m_str = boost::regex_replace(m_str, boost::regex("+-{4,}[^\n]-{4,}+"), "\\\\"+m_conf->get("title0")+"{$1}\\n")
+    m_str = boost::regex_replace(m_str, boost::regex("#-{4,}([^-\n]{1,})-{4,}"), "\\\\"+m_conf->get("title0")+"{$1}\\n"); //TODO
     //underlined titles
     m_str = boost::regex_replace(m_str, boost::regex("([^\\n]{1,})\\n={4,}\\n"), "\\\\"+m_conf->get("title1")+"{$1}\\n");
     m_str = boost::regex_replace(m_str, boost::regex("([^\\n]{1,})\\n-{4,}\\n"), "\\\\"+m_conf->get("title2")+"{$1}\\n");
@@ -44,6 +45,14 @@ void TextHandler::transformTitles()
     m_str = boost::regex_replace(m_str, boost::regex("#{3}([^\\n]{1,})\\n"), "\\\\"+m_conf->get("title3")+"{$1}\\n");
     m_str = boost::regex_replace(m_str, boost::regex("#{2}([^\\n]{1,})\\n"), "\\\\"+m_conf->get("title2")+"{$1}\\n");
     m_str = boost::regex_replace(m_str, boost::regex("#{1}([^\\n]{1,})\\n"), "\\\\"+m_conf->get("title1")+"{$1}\\n");
+}
+
+void TextHandler::transformFormating()
+{
+    //bold
+    m_str = boost::regex_replace(m_str, boost::regex("(\\<)__([^_]*)__(\\>)"), "$1\\\\textbf{$2}$3");
+    //italic
+    m_str = boost::regex_replace(m_str, boost::regex("(\\<)_([^_]*)_(\\>)"), "$1\\\\textit{$2}$3");
 }
 
 void TextHandler::print(std::ostream& out) const

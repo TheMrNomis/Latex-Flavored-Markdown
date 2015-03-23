@@ -36,6 +36,7 @@ class TextHandler : public WritableElement
         virtual void print(std::ostream& out) const;
     private:
         void transformTitles();
+        void transformFormating();
 
         std::string m_str;
         Configuration * m_conf;
