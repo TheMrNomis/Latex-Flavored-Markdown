@@ -27,42 +27,47 @@
 #include "CustomExceptions.h"
 #include "Document.h"
 #include "PackageManager.h"
+#include "MathReplacementLists.h"
 
 int main (int argc, char const* argv[])
 {
-    PackageManager * packages(new PackageManager());
-    Configuration * parameters;
-    try
-    {
-        parameters = new Configuration(argc, argv);
-    }
-    catch(ArgumentException& e)
-    {
-        //an argument was not correctly given
-        std::cout << argv[0] << " : " << e.what() << std::endl;
-        std::cout << "Try `" << argv[0] << " --help` for more information." << std::endl;
-        return EXIT_FAILURE;
-    }
-    catch(HelpMessage& e)
-    {
-        //displays a help text and quit
-        std::cout << e.what() << std::endl;
-        return EXIT_SUCCESS;
-    }
+//    PackageManager * packages(new PackageManager());
+//    Configuration * parameters;
+//    try
+//    {
+//        parameters = new Configuration(argc, argv);
+//    }
+//    catch(ArgumentException& e)
+//    {
+//        //an argument was not correctly given
+//        std::cout << argv[0] << " : " << e.what() << std::endl;
+//        std::cout << "Try `" << argv[0] << " --help` for more information." << std::endl;
+//        return EXIT_FAILURE;
+//    }
+//    catch(HelpMessage& e)
+//    {
+//        //displays a help text and quit
+//        std::cout << e.what() << std::endl;
+//        return EXIT_SUCCESS;
+//    }
 
-    //mrl is declared now, so that it is shared between all documents
-    //but will be initialized only when needed (the first time a TextHandler is created)
-    MathReplacementLists * mrl(nullptr);
+//    //mrl is declared now, so that it is shared between all documents
+//    //but will be initialized only when needed (the first time a TextHandler is created)
+//    MathReplacementLists * mrl(nullptr);
 
-    std::vector<std::string> files(parameters->getFiles());
+//    std::vector<std::string> files(parameters->getFiles());
 
-    for(auto f = files.begin(); f != files.cend(); f++)
-        Document(*f, parameters, packages, &mrl);
+//    for(auto f = files.begin(); f != files.cend(); f++)
+//        Document(*f, parameters, packages, &mrl);
 
-    if(mrl != nullptr) //if mrl has been initialized, we destroy it
-        delete mrl;
-    delete parameters;
-    delete packages;
+//    if(mrl != nullptr) //if mrl has been initialized, we destroy it
+//        delete mrl;
+//    delete parameters;
+//    delete packages;
 
+//    return EXIT_SUCCESS;
+
+    MathReplacementLists m;
+    m.print();
     return EXIT_SUCCESS;
 }

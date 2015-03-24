@@ -22,9 +22,12 @@
 #define __MATHREPLACEMENTLISTS_H__
 
 #include <iostream>
+#include <fstream>
 #include <list>
+#include <boost/algorithm/string.hpp>
+#include "CustomExceptions.h"
 
-using List = std::list<std::tuple<std::string, std::string, char>>;
+using List = std::list<std::tuple<char, std::string, std::string>>;
 
 class MathReplacementLists
 {
@@ -32,7 +35,14 @@ class MathReplacementLists
         MathReplacementLists();
         virtual ~MathReplacementLists();
 
+        const List * getSymbols() const;
+        const List * getFunctions() const;
+
+        void print() const;
+
     private:
+        void load(List * l, std::string filename);
+
         List * m_symbolList;
         List * m_functionList;
 };
