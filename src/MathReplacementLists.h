@@ -22,6 +22,7 @@
 #define __MATHREPLACEMENTLISTS_H__
 
 #include <iostream>
+#include <sstream>
 #include <fstream>
 #include <list>
 #include <boost/algorithm/string.hpp>

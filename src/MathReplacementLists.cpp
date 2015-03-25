@@ -30,8 +30,29 @@ void MathReplacementLists::load(List * l, std::string filename)
         {
             std::tuple<char, std::string, std::string> t;
             std::get<0>(t) = line[0];
-            std::get<1>(t) = "abc";
-            std::get<2>(t) = "def";
+            int k(0);
+            std::stringstream str;
+            for(unsigned int i = 1; i < line.length(); i++)
+            {
+                if(line[i] == '@')
+                {
+                    if(k == 1)
+                    {
+                        std::string s = str.str();
+                        boost::algorithm::trim(s);
+                        std::get<1>(t) = s;
+                    }
+                    str.str("");
+                    k++;
+                }
+                else
+                {
+                    str << line[i];
+                }
+            }
+            std::string s = str.str();
+            boost::algorithm::trim(s);
+            std::get<2>(t) = s;
             l->push_back(t);
         }
     }
