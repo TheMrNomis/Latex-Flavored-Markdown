@@ -31,7 +31,7 @@ using List = std::list<std::tuple<char, std::string, std::string>>;
 class MathHandler : public WritableElement
 {
     public:
-        MathHandler(std::string const& s, MathReplacementLists ** mrl, bool block = true);
+        MathHandler(std::string const& s, MathReplacementLists ** mrl, const bool block = true);
         virtual ~MathHandler();
 
         virtual void print(std::ostream& out) const;

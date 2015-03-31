@@ -20,7 +20,7 @@
 
 #include "MathHandler.h"
 
-MathHandler::MathHandler(std::string const& s, MathReplacementLists ** mrl, bool block):
+MathHandler::MathHandler(std::string const& s, MathReplacementLists ** mrl, const bool block):
     m_str(s),
     m_block(block)
 {
@@ -66,7 +66,7 @@ void MathHandler::replaceSymbols()
         replace = replace + " ";
         break;
     }
-    std::cout << "replacing `" << search << "` by `" << replace << "`" << std::endl;
+//    std::cout << "replacing `" << search << "` by `" << replace << "`" << std::endl;
     boost::replace_all(m_str, search, replace);
   }
 }
