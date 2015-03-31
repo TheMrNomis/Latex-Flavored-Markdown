@@ -27,6 +27,8 @@ MathHandler::MathHandler(std::string const& s, MathReplacementLists ** mrl, bool
     if(*mrl == nullptr)
         (*mrl) = new MathReplacementLists();
     m_mrl = *mrl;
+
+    replaceSymbols();
 }
 
 MathHandler::~MathHandler()
@@ -40,4 +42,31 @@ void MathHandler::print(std::ostream& out) const
         out << "\\[" << std::endl << m_str << "\\]" << std::endl;
     else
         out << "$" << m_str << "$";
+}
+
+void MathHandler::replaceSymbols()
+{
+  const List * sym = m_mrl->getSymbols();
+  for(auto i = sym->cbegin(); i != sym->cend(); i++)
+  {
+    std::string search(std::get<1>(*i));
+    std::string replace(std::get<2>(*i));
+    switch(std::get<0>(*i))
+    {
+      case 'b':
+        search = " " + search + " ";
+        replace = " " + replace + " ";
+        break;
+      case 'l':
+        search = " " + search;
+        replace = " " + replace;
+        break;
+      case 'r':
+        search = search + " ";
+        replace = replace + " ";
+        break;
+    }
+    std::cout << "replacing `" << search << "` by `" << replace << "`" << std::endl;
+    boost::replace_all(m_str, search, replace);
+  }
 }

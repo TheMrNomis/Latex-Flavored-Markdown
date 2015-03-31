@@ -22,8 +22,11 @@
 #define __MATHSHANDLER_H__
 
 #include <iostream>
+#include <list>
 #include "WritableElement.h"
 #include "MathReplacementLists.h"
+
+using List = std::list<std::tuple<char, std::string, std::string>>;
 
 class MathHandler : public WritableElement
 {
@@ -33,6 +36,8 @@ class MathHandler : public WritableElement
 
         virtual void print(std::ostream& out) const;
     private:
+        void replaceSymbols();
+
         std::string m_str;
         bool const m_block;
 
