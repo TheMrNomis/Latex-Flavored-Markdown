@@ -74,8 +74,21 @@ void Document::print(std::ostream& out) const
 
 void Document::transform(bool math, std::stringstream * str, std::ofstream * texfile)
 {
-    if(math)
-        *texfile << MathHandler(str->str(), m_mrl);
-    else
-        *texfile << TextHandler(str->str(), m_conf, m_pkg);
+  if(math)
+    *texfile << MathHandler(str->str(), m_mrl);
+  else
+  {
+    std::vector<std::string> txt;
+    std::string tmp(str->str());
+    boost::split(txt, tmp, boost::is_any_of("$"));
+    bool inlineMath(false);
+    for(auto i = txt.cbegin(); i != txt.cend(); i++)
+    {
+      if(inlineMath)
+        *texfile << MathHandler(*i, m_mrl, false);
+      else
+        *texfile << TextHandler(*i, m_conf, m_pkg);
+      inlineMath = !inlineMath;
+    }
+  }
 }
