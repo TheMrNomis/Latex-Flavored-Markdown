@@ -52,7 +52,7 @@ int main (int argc, char const* argv[])
     }
 
     //mrl is declared now, so that it is shared between all documents
-    //but will be initialized only when needed (the first time a TextHandler is created)
+    //but will be initialized only when needed (the first time a MathHandler is created)
     MathReplacementLists * mrl(nullptr);
 
     std::vector<std::string> files(parameters->getFiles());
