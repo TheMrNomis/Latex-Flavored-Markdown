@@ -44,18 +44,25 @@ class Document
       virtual void transform();
         
     private:
-      //private vars
+      //file management
+      std::ifstream & openInput();
+      std::ofstream & openOutput(bool beginning = false);
+      
       std::string m_inputFilename;
       std::string m_outputFilename;
-    
-      //transformation blocks
-      Configuration * m_conf;
       
-      PackageManager * packages;
+      //block management
+      void switchBlock(Block * nextBlock);
+      
+      Block * m_currentBlock;
   
       TextBlock * m_textBlock;
       MathBlock * m_mathBlock;
       CodeBlock * m_codeBlock;
+      
+      //others
+      Configuration * m_conf;
+      PackageManager * m_packages;
 };
 
 #endif /* __DOCUMENT_H__ */

@@ -20,75 +20,102 @@
 
 #include "Document.h"
 
-Document::Document(std::string filename, Configuration * conf, PackageManager * pkg, MathReplacementLists ** mrl):
+Document::Document( std::string inputFilename,
+                    Configuration * conf,
+                    PackageManager * packages,
+                    TextBlock * textblock,
+                    MathBlock * mathblock,
+                    CodeBlock * codeblock):
     m_conf(conf),
-    m_pkg(pkg),
-    m_mrl(mrl)
+    m_packages(packages),
+    
+    m_textBlock(textblock),
+    m_mathBlock(mathblock),
+    m_codeBlock(codeblock),
+    
+    m_currentBlock((Block *)textblock),
+    
+    m_inputFilename(inputFilename)
 {
-    std::ifstream mdfile(filename);
-    if(!mdfile.is_open())
-        throw CantOpenFile(filename);
-    std::cout << "Input markdown file : " << filename << std::endl;
-
-    std::string texfilename(filename + ".tex");
-    std::ofstream * texfile = new std::ofstream(texfilename, std::ios::out | std::ios::trunc);
-    if(!texfile->is_open())
-        throw CantOpenFile(texfilename);
-    std::cout << "Output TeX file : " << texfilename << std::endl;
-
-    std::string line;
-    std::stringstream * str = new std::stringstream();
-    bool math(false);
-    while(mdfile.good())
-    {
-        getline(mdfile, line);
-        if(boost::regex_match(line, boost::regex("\\${2}")))
-        {
-            transform(math, str, texfile);
-            delete str;
-            str = new std::stringstream();
-            math = !math;
-        }
-        else
-        {
-            *str << line << std::endl;
-        }
-    }
-    transform(math, str, texfile);
-    delete str;
-    mdfile.close();
-    texfile->close();
-    delete texfile;
+    //TODO: m_outputFilename
 }
+
 Document::~Document()
 {
-    for(auto i=m_splittedDocument.cbegin(); i != m_splittedDocument.cend(); i++)
-        delete *i;
+  
 }
 
-void Document::print(std::ostream& out) const
+std::ifstream & openInput()
 {
-    for(auto i : m_splittedDocument)
-        out << i;
+  std::ifstream inputFile(m_inputFilename);
+  if(!inputFile.is_open())
+      throw CantOpenFile(m_inputFilename);
+  std::cout << "Input markdown file : " << filename << std::endl;
+  
+  return inputFile;
 }
 
-void Document::transform(bool math, std::stringstream * str, std::ofstream * texfile)
+std::ofstream & openOutput(bool beginning = false)
 {
-  if(math)
-    *texfile << MathHandler(str->str(), m_mrl);
-  else
+  std::ofstream outputFile = new std::ofstream(m_inputFilename, std::ios::out | std::ios::trunc);
+  if(!outputFile.is_open())
+      throw CantOpenFile(outputFilename);
+  std::cout << "Output TeX file : " << outputFilename << std::endl;
+  
+  return outputFile;
+}
+
+void Document::switchBlock(Block * nextBlock, std::string line = "")
+{
+  m_currentBlock.stopBlock();
+  m_currentBlock = nextBlock;
+  m_currentBlock.beginBlock(line);
+}
+
+void Document::transform()
+{
+  //files initialization
+  std::ifstream inputFile = openInput();
+  std::ofstream outputFile = openOutput();
+  
+  //block initialization
+  m_currentBlock = m_textBlock;
+  m_currentBlock.beginBlock();
+
+  //we point each line to the required block
+  std::string line;
+  while(inputFile.good())
   {
-    std::vector<std::string> txt;
-    std::string tmp(str->str());
-    boost::split(txt, tmp, boost::is_any_of("$"));
-    bool inlineMath(false);
-    for(auto i = txt.cbegin(); i != txt.cend(); i++)
-    {
-      if(inlineMath)
-        *texfile << MathHandler(*i, m_mrl, false);
+      getline(inputFile, line);
+      if(boost::regex_match(line, boost::regex("\\${2}")))
+        switch(m_currentBlock)
+        {
+          case m_mathBlock:
+            switchBlock(m_textBlock);
+            break;
+          case m_textBlock:
+            switchBlock(m_mathBlock, line);
+            break;
+          default:
+            m_currentBlock.addLine(line);
+        }
+      else if(boost::regex_match(line, boost::regex("`{2}")))
+        switch(m_currentBlock)
+        {
+          case m_codeBlock:
+            switchBlock(m_textBlock);
+            break;
+          case m_textBlock:
+            switchBlock(m_codeBlock, line);
+            break;
+          default:
+            m_currentBlock.addLine(line)
+        }
       else
-        *texfile << TextHandler(*i, m_conf, m_pkg);
-      inlineMath = !inlineMath;
-    }
+        m_currentBlock.addLine(line);
   }
+  
+  //closing the files
+  inputFile.close();
+  outputFile.close();
 }
