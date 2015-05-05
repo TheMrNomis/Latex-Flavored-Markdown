@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-std=c++0x
+CFLAGS=-std=c++0x -I../include
 CLIBS=-lm -lboost_regex -lpthread
 SRC=$(wildcard *.cpp)
 OBJ=$(SRC:.cpp=.o)
