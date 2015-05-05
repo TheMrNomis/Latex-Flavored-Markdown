@@ -22,12 +22,13 @@
 #define __MATHBLOCK_H__
 
 #include "Block.h"
+#include "Configuration.h"
 
 class MathBlock : public Block
 {
   public:
     MathBlock ();
-    virtual ~MathBlock ();
+    virtual ~MathBlock (Configuration * conf);
     
     virtual void beginBlock();
     virtual void addLine(std::string line, bool terminateLine = true);

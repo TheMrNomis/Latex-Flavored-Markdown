@@ -18,8 +18,8 @@
  * along with Latex-Flavored-Markdown. If not, see <http://www.gnu.org/licenses/>.
  */
 
-TextBlock::TextBlock ():
-  Block()
+TextBlock::TextBlock (Configuration * conf):
+  Block(conf)
 {
 
 }

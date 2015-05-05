@@ -20,8 +20,8 @@
 
 #include "MathBlock.h"
 
-MathBlock::MathBlock():
-  Block()
+MathBlock::MathBlock(Configuration * conf):
+  Block(conf)
 {
 
 }

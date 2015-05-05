@@ -22,11 +22,12 @@
 #define __TEXTBLOCK_H__
 
 #include "Block.h"
+#include "Configuration.h"
 
 class TextBlock : public Block
 {
   public:
-    TextBlock ();
+    TextBlock (Configuration * conf);
     virtual ~TextBlock ();
     
     virtual void beginBlock();
