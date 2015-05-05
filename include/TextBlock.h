@@ -30,7 +30,7 @@ class TextBlock : public Block
     TextBlock (Configuration * conf);
     virtual ~TextBlock ();
     
-    virtual void beginBlock();
+    virtual void beginBlock(std::string startingLine = "");
     virtual void addLine(std::string line, bool terminateLine = true);
     virtual void stopBlock();
     

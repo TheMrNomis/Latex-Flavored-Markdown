@@ -30,7 +30,7 @@ class MathBlock : public Block
     MathBlock ();
     virtual ~MathBlock (Configuration * conf);
     
-    virtual void beginBlock();
+    virtual void beginBlock(std::string startingLine = "");
     virtual void addLine(std::string line, bool terminateLine = true);
     virtual void stopBlock();
     

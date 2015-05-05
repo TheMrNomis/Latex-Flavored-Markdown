@@ -31,7 +31,7 @@ class Block
     Block (Configuration * conf);
     virtual ~Block ();
     
-    virtual void beginBlock() = 0;
+    virtual void beginBlock(std::string startingLine = "") = 0;
     virtual void addLine(std::string line, bool terminateLine = true) = 0;
     virtual void stopBlock() = 0;
     

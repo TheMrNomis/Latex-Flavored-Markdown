@@ -31,7 +31,7 @@ MathBlock::~MathBlock()
 
 }
 
-void MathBlock::beginBlock()
+void MathBlock::beginBlock(std::string startingLine)
 {
 
 }

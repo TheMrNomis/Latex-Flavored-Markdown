@@ -31,7 +31,7 @@ CodeBlock::~CodeBlock ()
 
 }
 
-void CodeBlock::beginBlock()
+void CodeBlock::beginBlock(std::string startingLine)
 {
 
 }

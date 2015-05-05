@@ -29,7 +29,7 @@ TextBlock::~TextBlock ()
 
 }
 
-void TextBlock::beginBlock()
+void TextBlock::beginBlock(std::string startingLine)
 {
 
 }
