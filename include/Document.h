@@ -23,36 +23,39 @@
 
 #include <iostream>
 #include <fstream>
-#include <boost/regex.hpp>
-#include <sstream>
-#include <vector>
-#include "WritableElement.h"
-#include "TextHandler.h"
-#include "MathHandler.h"
-#include "CustomExceptions.h"
-#include "PackageManager.h"
 #include "Configuration.h"
-#include "MathReplacementLists.h"
+#include "PackageManager.h"
+#include "TextBlock.h"
+#include "MathBlock.h"
+#include "CodeBlock.h"
 
-class Document : public WritableElement
+class Document
 {
     public:
-        Document(std::string filename, Configuration * conf, PackageManager * pkg, MathReplacementLists ** mrl);
-        virtual ~Document();
-
-        virtual void print(std::ostream& out) const;
+      Document(std::string inputFilename,
+        Configuration * conf,
+        PackageManager * packages,
+        TextBlock * textblock,
+        MathBlock * mathblock,
+        CodeBlock * codeblock
+      );
+      virtual ~Document();
+      
+      virtual void transform();
+        
     private:
-        std::string m_filename;
-        std::vector<WritableElement *> m_splittedDocument;
-
-        TextHandler * m_textHandler;
-        MathHandler * m_mathHandler;
-
-        Configuration * m_conf;
-        PackageManager * m_pkg;
-        MathReplacementLists ** m_mrl;
-
-        void transform(bool math, std::stringstream * str, std::ofstream * texfile);
+      //private vars
+      std::string m_inputFilename;
+      std::string m_outputFilename;
+    
+      //transformation blocks
+      Configuration * m_conf;
+      
+      PackageManager * packages;
+  
+      TextBlock * m_textBlock;
+      MathBlock * m_mathBlock;
+      CodeBlock * m_codeBlock;
 };
 
 #endif /* __DOCUMENT_H__ */
