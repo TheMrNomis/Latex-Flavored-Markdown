@@ -23,20 +23,17 @@
 #include <iostream>
 #include <exception>
 #include <vector>
-#include "Configuration.h"
+#include <boost/algorithm/string/replace.hpp>
 #include "CustomExceptions.h"
+#include "Configuration.h"
 #include "Document.h"
-#include "PackageManager.h"
-#include "TextBlock.h"
-#include "MathBlock.h"
-#include "CodeBlock.h"
 
 int main (int argc, char const* argv[])
 {
   Configuration * conf;
   try
   {
-    parameters = new Configuration(argc, argv);
+    conf = new Configuration(argc, argv);
   }
   catch(ArgumentException& e)
   {
@@ -52,31 +49,18 @@ int main (int argc, char const* argv[])
     return EXIT_SUCCESS;
   }
   
-  PackageManager * packages(new PackageManager());
-  
-  TextBlock * textBlock(new TextBlock(conf));
-  MathBlock * mathBlock(new MathBlock(conf));
-  CodeBlock * codeBlock(new CodeBlock(conf));
-  
-  std::vector<std::string> files(parameters->getFiles());
+  std::vector<std::string> files(conf->getFiles());
 
   for(auto f = files.begin(); f != files.cend(); f++)
   {
-    Document doc(*f,
-      conf,
-      packages,
-      textBlock,
-      mathBlock,
-      codeBlock
-    );
+    std::string inputFilename(*f);
+    std::string outputFilename(boost::algorithm::ireplace_last_copy(inputFilename, ".md", ".tex"));
+    
+    Document doc(inputFilename, outputFilename, conf);
     doc.transform();
   }
-      
   
-  delete codeBlock;
-  delete mathBlock;
-  delete TextBlock;
+  delete conf;
   
-  delete packages;
   return EXIT_SUCCESS;
 }
