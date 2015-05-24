@@ -1,27 +1,26 @@
-title: Latex Flavored Markdown
-author: TheMrNomis
-date: 23 Novembre 2014
-type: report
-++++
+%title: Latex Flavored Markdown
+%author: TheMrNomis
+%date: 23 Novembre 2014
+%type: report
 
-First underlined level title
-============================
 
-Second underlined level title
------------------------------
+level 0 underlined title
+========================
 
-Third underlined level title
-____________________________
+level 1 underlined title
+------------------------
 
-#First level title
+#----level 0 title----
 
-##Second level title
+#level 1 title
 
-###Third level title
+##level 2 title
 
-####Fourth level title
+###level 3 title
 
-#####Fifth level title
+####level 4 title
+
+#####level 5 title
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fermentum tincidunt purus, et gravida nisi pellentesque quis. Ut ligula ante, ornare non quam in, tincidunt dapibus nibh. Fusce sit amet consequat arcu. Pellentesque tempus vehicula lorem, id volutpat nibh vehicula quis. Etiam vitae faucibus quam. Nullam eu sem massa. Etiam accumsan dui mi, non posuere odio tempus nec. Praesent id arcu ac eros ultrices sollicitudin at quis nisi. Quisque vel porttitor tellus.
 
