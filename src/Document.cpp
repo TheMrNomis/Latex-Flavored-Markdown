@@ -19,103 +19,91 @@
  */
 
 #include "Document.h"
+#include "CustomExceptions.h"
+#include "TextBlock.h"
+#include "MathBlock.h"
+#include "CodeBlock.h"
 
-Document::Document( std::string inputFilename,
-                    Configuration * conf,
-                    PackageManager * packages,
-                    TextBlock * textblock,
-                    MathBlock * mathblock,
-                    CodeBlock * codeblock):
+Document::Document( std::string const& inputFilename,
+                    std::string const& outputFilename,
+                    Configuration * conf):
+    m_inputFilename(inputFilename),
+    m_outputFilename(outputFilename),
+    
+    m_inputFile(inputFilename),
+    m_outputFile(outputFilename),
+    
     m_conf(conf),
-    m_packages(packages),
+    m_packages(new PackageManager()),
     
-    m_textBlock(textblock),
-    m_mathBlock(mathblock),
-    m_codeBlock(codeblock),
+    m_textBlock(new TextBlock(m_outputFile, m_conf)),
+    m_mathBlock(new MathBlock(m_outputFile, m_conf)),
+    m_codeBlock(new CodeBlock(m_outputFile, m_conf)),
     
-    m_currentBlock((Block *)textblock),
-    
-    m_inputFilename(inputFilename)
-{
-    //TODO: m_outputFilename
+    m_currentBlock((Block *)m_textBlock)
+{    
+    //file management
+    if(!m_inputFile.is_open())
+      throw CantOpenFile(m_inputFilename);
+    std::cout << "Input markdown file : " << m_inputFilename << std::endl;
+    if(!m_outputFile.is_open())
+      throw CantOpenFile(m_outputFilename);
+    std::cout << "Output TeX file : " << m_outputFilename << std::endl;
 }
 
 Document::~Document()
 {
+  //closing the files
+  m_inputFile.close();
+  m_outputFile.close();
+
+  delete m_textBlock;
+  delete m_mathBlock;
+  delete m_codeBlock;
   
+  delete m_packages;
 }
 
-std::ifstream & openInput()
+void Document::switchBlock(Block * nextBlock, std::string line)
 {
-  std::ifstream inputFile(m_inputFilename);
-  if(!inputFile.is_open())
-      throw CantOpenFile(m_inputFilename);
-  std::cout << "Input markdown file : " << filename << std::endl;
-  
-  return inputFile;
-}
-
-std::ofstream & openOutput(bool beginning = false)
-{
-  std::ofstream outputFile = new std::ofstream(m_inputFilename, std::ios::out | std::ios::trunc);
-  if(!outputFile.is_open())
-      throw CantOpenFile(outputFilename);
-  std::cout << "Output TeX file : " << outputFilename << std::endl;
-  
-  return outputFile;
-}
-
-void Document::switchBlock(Block * nextBlock, std::string line = "")
-{
-  m_currentBlock.stopBlock();
+  m_currentBlock->stopBlock();
   m_currentBlock = nextBlock;
-  m_currentBlock.beginBlock(line);
+  m_currentBlock->beginBlock(line);
 }
 
 void Document::transform()
 {
-  //files initialization
-  std::ifstream inputFile = openInput();
-  std::ofstream outputFile = openOutput();
-  
   //block initialization
   m_currentBlock = m_textBlock;
-  m_currentBlock.beginBlock();
+  m_currentBlock->beginBlock();
 
   //we point each line to the required block
   std::string line;
-  while(inputFile.good())
+  while(m_inputFile.good())
   {
-      getline(inputFile, line);
+      getline(m_inputFile, line);
+      /*
+        changing the current block
+      */
       if(boost::regex_match(line, boost::regex("\\${2}")))
-        switch(m_currentBlock)
-        {
-          case m_mathBlock:
-            switchBlock(m_textBlock);
-            break;
-          case m_textBlock:
-            switchBlock(m_mathBlock, line);
-            break;
-          default:
-            m_currentBlock.addLine(line);
-        }
+      {
+        if(m_currentBlock == (Block *) m_mathBlock)
+          switchBlock(m_textBlock);
+        else if(m_currentBlock == (Block *) m_textBlock)
+          switchBlock(m_mathBlock, line);
+        else
+          m_currentBlock->addLine(line);
+      }
       else if(boost::regex_match(line, boost::regex("`{2}")))
-        switch(m_currentBlock)
-        {
-          case m_codeBlock:
-            switchBlock(m_textBlock);
-            break;
-          case m_textBlock:
-            switchBlock(m_codeBlock, line);
-            break;
-          default:
-            m_currentBlock.addLine(line)
-        }
+      {
+        if(m_currentBlock == (Block *) m_codeBlock)
+          switchBlock(m_textBlock);
+        else if(m_currentBlock == (Block *) m_textBlock)
+          switchBlock(m_codeBlock, line);
+        else
+          m_currentBlock->addLine(line);
+      }
       else
-        m_currentBlock.addLine(line);
+        m_currentBlock->addLine(line);
   }
-  
-  //closing the files
-  inputFile.close();
-  outputFile.close();
 }

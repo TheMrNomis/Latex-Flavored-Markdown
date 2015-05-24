@@ -23,6 +23,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <boost/regex.hpp>
 #include "Configuration.h"
 #include "PackageManager.h"
 #include "TextBlock.h"
@@ -32,12 +33,9 @@
 class Document
 {
     public:
-      Document(std::string inputFilename,
-        Configuration * conf,
-        PackageManager * packages,
-        TextBlock * textblock,
-        MathBlock * mathblock,
-        CodeBlock * codeblock
+      Document( std::string const& inputFilename,
+                std::string const& outputFilename,
+                Configuration * conf
       );
       virtual ~Document();
       
@@ -45,24 +43,25 @@ class Document
         
     private:
       //file management
-      std::ifstream & openInput();
-      std::ofstream & openOutput(bool beginning = false);
+      const std::string m_inputFilename;
+      const std::string m_outputFilename;
       
-      std::string m_inputFilename;
-      std::string m_outputFilename;
-      
-      //block management
-      void switchBlock(Block * nextBlock);
-      
-      Block * m_currentBlock;
-  
-      TextBlock * m_textBlock;
-      MathBlock * m_mathBlock;
-      CodeBlock * m_codeBlock;
+      std::ifstream m_inputFile;
+      std::ofstream m_outputFile;      
       
       //others
       Configuration * m_conf;
       PackageManager * m_packages;
+      
+      //block management
+      void switchBlock(Block * nextBlock, std::string line = "");
+  
+      TextBlock *const m_textBlock;
+      MathBlock *const m_mathBlock;
+      CodeBlock *const m_codeBlock;
+      
+      Block * m_currentBlock;
+      
 };
 
 #endif /* __DOCUMENT_H__ */
