@@ -1,5 +1,5 @@
 /*
- * MathBlock.h
+ * Block.cpp
  * This file is part of Latex-Flavored-Markdown
  *
  * Copyright (C) 2015 - n0m1s
@@ -18,27 +18,12 @@
  * along with Latex-Flavored-Markdown. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __MATHBLOCK_H__
-#define __MATHBLOCK_H__
-
 #include "Block.h"
-#include "Configuration.h"
 
-class MathBlock : public Block
-{
-  public:
-    MathBlock (std::ofstream & output, Configuration * conf);
-    virtual ~MathBlock ();
-    
-    virtual void beginBlock(std::string startingLine = "");
-    virtual void addLine(std::string line, bool terminateLine = true);
-    virtual void stopBlock();
-    
-    virtual std::string transformSingleLine(std::string line);
+Block::Block(std::ofstream & output, Configuration * conf):
+  m_output(output),
+  m_lines(),
+  m_conf(conf)
+{}
 
-  private:
-    
-};
-
-#endif /* __MATHBLOCK_H__ */
-
+Block::~Block(){}

@@ -27,7 +27,7 @@
 class CodeBlock : public Block
 {
   public:
-    CodeBlock (Configuration * conf);
+    CodeBlock (std::ofstream & output, Configuration * conf);
     virtual ~CodeBlock ();
     
     virtual void beginBlock(std::string startingLine = "");

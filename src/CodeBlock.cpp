@@ -20,8 +20,8 @@
 
 #include "CodeBlock.h"
 
-CodeBlock::CodeBlock (Configuration * conf):
-  Block(conf)
+CodeBlock::CodeBlock (std::ofstream & output, Configuration * conf):
+  Block(output, conf)
 {
 
 }
@@ -33,20 +33,20 @@ CodeBlock::~CodeBlock ()
 
 void CodeBlock::beginBlock(std::string startingLine)
 {
-
+  m_output << "\\begin{verbatim}" << std::endl;
 }
 
-void CodeBlock::addLine(std::string line, bool terminateLine = true)
+void CodeBlock::addLine(std::string line, bool terminateLine)
 {
-
+  m_output << line << std::endl;
 }
 
 void CodeBlock::stopBlock()
 {
-
+  m_output << "\\end{verbatim}" << std::endl;
 }
 
 std::string CodeBlock::transformSingleLine(std::string line)
 {
-
+  return "";
 }

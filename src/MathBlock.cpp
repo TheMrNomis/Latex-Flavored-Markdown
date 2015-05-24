@@ -20,8 +20,8 @@
 
 #include "MathBlock.h"
 
-MathBlock::MathBlock(Configuration * conf):
-  Block(conf)
+MathBlock::MathBlock(std::ofstream & output, Configuration * conf):
+  Block(output, conf)
 {
 
 }
@@ -33,20 +33,20 @@ MathBlock::~MathBlock()
 
 void MathBlock::beginBlock(std::string startingLine)
 {
-
+  m_output << "\\[" << std::endl;
 }
 
-void MathBlock::addLine(std::string line, bool terminateLine = true)
+void MathBlock::addLine(std::string line, bool terminateLine)
 {
-
+  m_output << line << std::endl;
 }
 
 void MathBlock::stopBlock()
 {
-
+  m_output << "\\]" << std::endl;
 }
 
 std::string MathBlock::transformSingleLine(std::string line)
 {
-
+  return "";
 }

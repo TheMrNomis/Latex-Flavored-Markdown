@@ -27,7 +27,7 @@
 class TextBlock : public Block
 {
   public:
-    TextBlock (Configuration * conf);
+    TextBlock (std::ofstream & output, Configuration * conf);
     virtual ~TextBlock ();
     
     virtual void beginBlock(std::string startingLine = "");

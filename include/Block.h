@@ -22,13 +22,14 @@
 #define __BLOCK_H__
 
 #include <iostream>
+#include <fstream>
 #include <list>
 #include "Configuration.h"
 
 class Block
 {
   public:
-    Block (Configuration * conf);
+    Block (std::ofstream & output, Configuration * conf);
     virtual ~Block ();
     
     virtual void beginBlock(std::string startingLine = "") = 0;
@@ -37,15 +38,12 @@ class Block
     
     virtual std::string transformSingleLine(std::string line) = 0;
 
+  protected:
+    std::ofstream & m_output;
+
   private:
     std::list<std::string> m_lines;
     Configuration * m_conf;
 };
-
-Block::Block(Configuration * conf):
-  m_lines(),
-  m_conf(conf)
-{}
-
 #endif /* __BLOCK_H__ */
 

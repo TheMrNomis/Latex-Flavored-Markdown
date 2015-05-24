@@ -17,9 +17,12 @@
  * You should have received a copy of the GNU General Public License
  * along with Latex-Flavored-Markdown. If not, see <http://www.gnu.org/licenses/>.
  */
+ 
+#include "TextBlock.h"
 
-TextBlock::TextBlock (Configuration * conf):
-  Block(conf)
+
+TextBlock::TextBlock (std::ofstream & output, Configuration * conf):
+  Block(output, conf)
 {
 
 }
@@ -34,9 +37,9 @@ void TextBlock::beginBlock(std::string startingLine)
 
 }
 
-void TextBlock::addLine(std::string line, bool terminateLine = true)
+void TextBlock::addLine(std::string line, bool terminateLine)
 {
-
+  m_output << line << std::endl;
 }
 
 void TextBlock::stopBlock()
@@ -46,5 +49,5 @@ void TextBlock::stopBlock()
 
 std::string TextBlock::transformSingleLine(std::string line)
 {
-
+  return "";
 }
