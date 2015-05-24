@@ -53,10 +53,10 @@ int main (int argc, char const* argv[])
 
   for(auto f = files.begin(); f != files.cend(); f++)
   {
-    std::string inputFilename(*f);
-    std::string outputFilename(boost::algorithm::ireplace_last_copy(inputFilename, ".md", ".tex"));
+    std::string mdFilename(*f);
+    std::string texFilename(boost::algorithm::ireplace_last_copy(inputFilename, ".md", ".tex"));
     
-    Document doc(inputFilename, outputFilename, conf);
+    Document doc(mdFilename, texFilename, conf);
     doc.transform();
   }
   
